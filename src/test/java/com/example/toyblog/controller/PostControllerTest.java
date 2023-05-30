@@ -5,9 +5,6 @@ import com.example.toyblog.dto.request.CreatePost;
 import com.example.toyblog.dto.request.EditPost;
 import com.example.toyblog.repository.PostRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +36,6 @@ class PostControllerTest {
 
     @Autowired
     private PostRepository postRepository;
-    @Test
-    void test1() throws Exception {
-     mockMvc.perform(get("/posts"))
-             .andExpect(status().isOk())
-             //.andExpect(content().string("hell"))
-             .andDo(print());
-    }
 
     @Test
     @DisplayName("post 요청 시 title 값은 필수이다. ")
@@ -113,27 +103,6 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 여러 개 조회")
-    void 글_여러개_조회() throws Exception {
-        //given
-        Post post1 = new Post("제목1","내용1");
-        Post post2 = new Post("제목2","내용2");
-        postRepository.save(post1);
-        postRepository.save(post2);
-
-
-        mockMvc.perform(get("/posts")
-                        .contentType(APPLICATION_JSON)
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", is(2)))
-                .andExpect(jsonPath("$[0].id").value(post1.getId()))
-                .andExpect(jsonPath("$[0].title").value(post1.getTitle()))
-                .andExpect(jsonPath("$[0].content").value("내용1"))
-                .andDo(print());
-    }
-
-    @Test
     @DisplayName("페이징 처리 결과 조회")
     void 글_여러개_페이징_조회() throws Exception {
         //given
@@ -179,6 +148,15 @@ class PostControllerTest {
         mockMvc.perform(delete("/posts/{postId}",post.getId())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 게시글을 조회")
+    void 잘못된_게시글_조회() throws Exception {
+        mockMvc.perform(delete("/posts/{postId}",1L)
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 }

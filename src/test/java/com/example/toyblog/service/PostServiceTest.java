@@ -5,6 +5,7 @@ import com.example.toyblog.dto.request.CreatePost;
 import com.example.toyblog.dto.request.EditPost;
 import com.example.toyblog.dto.request.SearchOption;
 import com.example.toyblog.dto.response.PostResponse;
+import com.example.toyblog.exception.PostNotFound;
 import com.example.toyblog.repository.PostRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -38,7 +36,7 @@ class PostServiceTest {
 
         postService.write(post);
 
-        Assertions.assertEquals(1L,postRepository.count());
+        assertEquals(1L,postRepository.count());
 
         Post findpost = postRepository.findAll().get(0);
         assertEquals(findpost.getTitle(),"제목입니다.");
@@ -149,13 +147,17 @@ class PostServiceTest {
                 .orElseThrow(()->new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
 
         postService.delete(post.getId());
-
         assertEquals(0,postRepository.count());
 
     }
+    @Test
+    @DisplayName("한개 조회 실패")
+    void 조회_실패(){
+        Post post = new Post("제목1","내용1");
+        postRepository.save(post);
 
-
-
-
-
+        assertThrows(PostNotFound.class,()->{
+        postService.get(post.getId() + 1L);
+         });
+    }
 }

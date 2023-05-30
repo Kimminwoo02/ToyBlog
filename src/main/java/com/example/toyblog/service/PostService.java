@@ -5,6 +5,7 @@ import com.example.toyblog.dto.request.CreatePost;
 import com.example.toyblog.dto.request.EditPost;
 import com.example.toyblog.dto.request.SearchOption;
 import com.example.toyblog.dto.response.PostResponse;
+import com.example.toyblog.exception.PostNotFound;
 import com.example.toyblog.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +35,9 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public PostResponse get(Long id){
+    public PostResponse get(Long id) {
           Post post = postRepository.findById(id)
-                  .orElseThrow(()->new IllegalArgumentException("존재하지 않는 글입니다!"));
+                  .orElseThrow(PostNotFound::new);
 
         return new PostResponse(post.getId(), post.getTitle(), post.getContent());
     }
@@ -49,7 +50,7 @@ public class PostService {
     @Transactional
     public void edit(Long id, EditPost editPost){
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다!"));
+                .orElseThrow(PostNotFound::new);
         if(editPost.getTitle() != null){
             post.setTitle(editPost.getTitle());
         }
@@ -61,7 +62,7 @@ public class PostService {
 
     public void delete(Long id){
         Post post = postRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 글입니다."));
+                .orElseThrow(PostNotFound::new);
         postRepository.delete(post);
     }
 }
