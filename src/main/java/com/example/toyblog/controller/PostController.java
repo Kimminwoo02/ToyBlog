@@ -1,6 +1,8 @@
 package com.example.toyblog.controller;
 
+import com.example.toyblog.domain.Post;
 import com.example.toyblog.dto.request.CreatePost;
+import com.example.toyblog.dto.response.PostResponse;
 import com.example.toyblog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +26,15 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public Map<String,String> post(@RequestBody @Validated CreatePost request){
+    public void post(@RequestBody @Validated CreatePost request){
         postService.write(request);
-        return  Map.of();
+        //TO-DO : 아이디를 리턴해서 글 생성 시 만들어진 글로 리다이랙트
+    }
+
+    @GetMapping("/posts/{postId}")
+    public PostResponse get(@PathVariable Long postId){
+        PostResponse post = postService.get(postId);
+        return post;
     }
 
 
