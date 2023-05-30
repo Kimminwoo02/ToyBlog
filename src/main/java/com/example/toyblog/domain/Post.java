@@ -2,8 +2,10 @@ package com.example.toyblog.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
@@ -12,12 +14,13 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
+    @Setter private String title;
     @Lob // Db에 LongText로 저장
-    private String content;
+    @Setter private String content;
 
     public Post(String title, String content) {
         this.title = title;
         this.content = content;
     }
+
 }

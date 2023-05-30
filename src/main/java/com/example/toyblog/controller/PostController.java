@@ -1,19 +1,18 @@
 package com.example.toyblog.controller;
 
-import com.example.toyblog.domain.Post;
 import com.example.toyblog.dto.request.CreatePost;
+import com.example.toyblog.dto.request.EditPost;
+import com.example.toyblog.dto.request.SearchOption;
 import com.example.toyblog.dto.response.PostResponse;
 import com.example.toyblog.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -21,8 +20,8 @@ import java.util.Map;
 public class PostController {
     private final PostService postService;
     @GetMapping("/posts")
-    public String getPost(){
-        return "hell";
+    public List<PostResponse> getPost(@ModelAttribute SearchOption option){
+        return postService.getList(option);
     }
 
     @PostMapping("/posts")
@@ -35,6 +34,16 @@ public class PostController {
     public PostResponse get(@PathVariable Long postId){
         PostResponse post = postService.get(postId);
         return post;
+    }
+
+    @PatchMapping("/posts/{postId}")
+    public void edit(@PathVariable Long postId, @RequestBody @Valid EditPost request){
+        postService.edit(postId,request);
+    }
+
+    @DeleteMapping("posts/{postId}")
+    public void delete(@PathVariable Long postId){
+        postService.delete(postId);
     }
 
 
