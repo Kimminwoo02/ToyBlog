@@ -24,8 +24,6 @@ public class ExceptionController {
     @ResponseBody
     public ErrorResponse invalidRequestHandler(MethodArgumentNotValidException e){
         FieldError fieldError = e.getFieldError();
-        String field = fieldError.getField();
-        String message = fieldError.getDefaultMessage();
 
         ErrorResponse response = new ErrorResponse("400","잘못된 요청입니다.");
 
