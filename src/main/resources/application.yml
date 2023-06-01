@@ -1,4 +1,14 @@
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+    database: mysql
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  sql:
+    init:
+      mode: always
   h2:
     console:
       enabled: true
@@ -9,8 +19,10 @@ spring:
       pageable:
         one-indexed-parameters: true
         default-page-size: 7
+
   datasource:
-    url: jdbc:h2:mem:blog
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/blog
+    username: root
+    password: alsdn0508!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
