@@ -3,6 +3,7 @@ package com.example.toyblog.controller;
 import com.example.toyblog.config.AppConfig;
 
 import com.example.toyblog.dto.request.Login;
+import com.example.toyblog.dto.request.Signup;
 import com.example.toyblog.dto.response.SessionResponse;
 import com.example.toyblog.service.AuthService;
 import io.jsonwebtoken.Jwts;
@@ -38,4 +39,10 @@ public class AuthController {
 
         return new SessionResponse(jws);
     }
+
+    @PostMapping("/auth/signup")
+    public void signup(@RequestBody Signup signUp){
+        authService.signup(signUp);
+    }
+
 }

@@ -6,9 +6,6 @@ spring:
     database: mysql
     generate-ddl: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
-  sql:
-    init:
-      mode: always
   h2:
     console:
       enabled: true
