@@ -1,9 +1,11 @@
 package com.example.toyblog.service;
 
+import com.example.toyblog.crypto.PasswordEncoder;
 import com.example.toyblog.domain.User;
 import com.example.toyblog.dto.request.Login;
 import com.example.toyblog.dto.request.Signup;
 import com.example.toyblog.exception.AlreadyExistEmail;
+import com.example.toyblog.exception.LoginError;
 import com.example.toyblog.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -27,14 +29,15 @@ class AuthServiceTest {
     @Test
     @DisplayName("회원 가입성공")
     void 회원가입(){
+        PasswordEncoder encoder = new PasswordEncoder();
         Signup signup = new Signup("미누","asdfasdf@naver.com","1234");
 
         authService.signup(signup);
 
-        Assertions.assertEquals(1,userRepository.count());
+        assertEquals(1,userRepository.count());
         User user = userRepository.findAll().iterator().next();
         assertEquals("미누",user.getName());
-        assertNotEquals("1234",user.getPassword());
+        assertTrue(encoder.matches("1234",user.getPassword()));
         assertEquals("asdfasdf@naver.com",user.getEmail());
     }
 
@@ -48,4 +51,38 @@ class AuthServiceTest {
         assertThrows(AlreadyExistEmail.class, () -> authService.signup(signup1));
 
     }
+
+
+    @Test
+    @DisplayName("로그인 성공")
+    void 로그인_성공(){
+        PasswordEncoder encoder = new PasswordEncoder();
+        String encrypt = encoder.encrypt("1234");
+
+        User user = new User("미누", "asdfasdf@naver.com", encrypt);
+        userRepository.save(user);
+
+        Login login = new Login("asdfasdf@naver.com","1234");
+        authService.signIn(login);
+
+        Long userId = authService.signIn(login);
+
+        assertNotNull(userId);
+    }
+
+    @Test
+    @DisplayName("로그인_실패_비밀번호오류")
+    void 로그인_실패_비밀번호오류(){
+        PasswordEncoder encoder = new PasswordEncoder();
+        String encrypt = encoder.encrypt("1234");
+
+        Signup signup1 = new Signup("미누","asdfasdf@naver.com",encrypt);
+        authService.signup(signup1);
+
+        Login login = new Login("asdfasdf@naver.com","5678");
+
+        Assertions.assertThrows(LoginError.class,()->authService.signIn(login));
+    }
+
+
 }

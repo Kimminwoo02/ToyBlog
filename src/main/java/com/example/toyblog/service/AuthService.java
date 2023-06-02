@@ -1,5 +1,6 @@
 package com.example.toyblog.service;
 
+import com.example.toyblog.crypto.PasswordEncoder;
 import com.example.toyblog.domain.Session;
 import com.example.toyblog.domain.User;
 import com.example.toyblog.dto.request.Login;
@@ -24,9 +25,15 @@ public class AuthService {
 
     @Transactional
     public Long signIn(Login login){
-        User user = userRepository.findByEmailAndPassword(login.getEmail(), login.getPassword())
+
+        User user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(LoginError::new);
-        Session session = user.addSession();
+        PasswordEncoder encoder = new PasswordEncoder();
+        boolean matches = encoder.matches(login.getPassword(), user.getPassword());
+        if (!matches){
+            throw new LoginError();
+        }
+
         return user.getId();
     }
 
@@ -35,8 +42,9 @@ public class AuthService {
         if(byEmail.isPresent()){
             throw new AlreadyExistEmail();
         }
-        SCryptPasswordEncoder encoder = new SCryptPasswordEncoder(16, 8, 1, 32, 64);
-        String encryptedPassword = encoder.encode(signUp.getPassword());
+        PasswordEncoder encoder = new PasswordEncoder();
+        String encryptedPassword = encoder.encrypt(signUp.getPassword());
+
         User user = new User(signUp.getName(), signUp.getEmail(), encryptedPassword);
 
         userRepository.save(user);
