@@ -34,7 +34,7 @@ class AuthServiceTest {
         Assertions.assertEquals(1,userRepository.count());
         User user = userRepository.findAll().iterator().next();
         assertEquals("미누",user.getName());
-        assertEquals("1234",user.getPassword());
+        assertNotEquals("1234",user.getPassword());
         assertEquals("asdfasdf@naver.com",user.getEmail());
     }
 
@@ -44,7 +44,6 @@ class AuthServiceTest {
         User user = new User("미누", "asdfasdf@naver.com", "1234");
         userRepository.save(user);
         Signup signup1 = new Signup("미누","asdfasdf@naver.com","1234");
-
 
         assertThrows(AlreadyExistEmail.class, () -> authService.signup(signup1));
 
