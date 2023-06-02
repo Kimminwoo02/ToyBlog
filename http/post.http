@@ -1,4 +1,4 @@
 ### 테스트 요청
-POST http://localhost:8080/test
+GET http://localhost:8080/test
 Content-Type: application/json
-Authorization: asdf
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjg1Njg5MDE3fQ.g-V4gxa9N1X1hsGIw4g3YQ0j2L_p576jHRhvOfs58LQ
