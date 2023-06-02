@@ -25,4 +25,7 @@ spring:
     username: root
     password: alsdn0508!
     driver-class-name: com.mysql.cj.jdbc.Driver
+minu:
+  jwt-key: "LM6e6xmkbje1qT4vd1Tj+ewsslsLzEB3qP4tgtOd9Uk="
+
 
