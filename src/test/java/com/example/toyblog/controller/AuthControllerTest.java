@@ -3,6 +3,7 @@ package com.example.toyblog.controller;
 import com.example.toyblog.domain.Session;
 import com.example.toyblog.domain.User;
 import com.example.toyblog.dto.request.Login;
+import com.example.toyblog.dto.request.Signup;
 import com.example.toyblog.repository.SessionRepository;
 import com.example.toyblog.repository.UserRepository;
 import com.example.toyblog.service.AuthService;
@@ -129,6 +130,18 @@ class AuthControllerTest {
                         .header("Authorization",session.getAccessToken()+"-o")
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원가입")
+    void 회원가입() throws Exception{
+        Signup signup1 = new Signup("미누","asdfasdf@naver.com","1234");
+
+        mockMvc.perform(post("/auth/signup")
+                        .content(objectMapper.writeValueAsString(signup1))
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }
