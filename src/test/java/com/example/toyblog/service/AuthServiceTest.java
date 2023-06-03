@@ -5,17 +5,12 @@ import com.example.toyblog.domain.User;
 import com.example.toyblog.dto.request.Login;
 import com.example.toyblog.dto.request.Signup;
 import com.example.toyblog.exception.AlreadyExistEmail;
-import com.example.toyblog.exception.LoginError;
 import com.example.toyblog.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.rmi.AlreadyBoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,5 +47,7 @@ class AuthServiceTest {
         assertThrows(AlreadyExistEmail.class, () -> authService.signup(signup1));
 
     }
+
+
 
 }
