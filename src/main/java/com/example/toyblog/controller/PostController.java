@@ -1,6 +1,5 @@
 package com.example.toyblog.controller;
 
-import com.example.toyblog.config.data.UserSession;
 import com.example.toyblog.dto.request.CreatePost;
 import com.example.toyblog.dto.request.EditPost;
 import com.example.toyblog.dto.request.SearchOption;
@@ -20,10 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    @GetMapping("/test")
-    public Long test(UserSession userSession){
-        return userSession.id;
-    }
     @GetMapping("/posts")
     public List<PostResponse> getPost(@ModelAttribute SearchOption option){
         return postService.getList(option);

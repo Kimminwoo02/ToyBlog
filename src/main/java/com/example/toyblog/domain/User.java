@@ -20,8 +20,6 @@ public class User {
     private String email;
     private String password;
     private LocalDateTime createdAt;
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Session> sessions = new ArrayList<>();
 
     public User(String name, String email, String password) {
         this.name = name;
@@ -30,9 +28,5 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Session addSession() {
-        Session session = new Session(this);
-        sessions.add(session);
-        return session;
-    }
+
 }
