@@ -5,6 +5,7 @@ import {ref} from "vue";
 const posts = ref([])
 
 axios.get("api/posts?page=1&size=5").then((response) => {
+  console.log(response.data[0].createdAt)
   response.data.forEach((r: any) => {
     posts.value.push(r);
   });
@@ -23,8 +24,7 @@ axios.get("api/posts?page=1&size=5").then((response) => {
         {{ post.content }}
       </div>
       <div class="sub d-flex">
-        <div class="category">개발</div>
-        <div class="regDate">2023-03-03</div>
+        <div class="createdAt">{{post.createdAt}}</div>
       </div>
     </li>
   </ul>
