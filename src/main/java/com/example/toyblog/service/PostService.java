@@ -23,7 +23,7 @@ public class PostService {
     private final PostRepository postRepository;
 
     private static PostResponse apply(Post post) {
-        return new PostResponse(post.getId(), post.getTitle(), post.getContent());
+        return new PostResponse(post.getId(), post.getTitle(), post.getContent(),post.getCreatedAt(),post.getModifiedAt());
     }
 
     public void write(CreatePost createPost){
@@ -35,7 +35,7 @@ public class PostService {
           Post post = postRepository.findById(id)
                   .orElseThrow(PostNotFound::new);
 
-        return new PostResponse(post.getId(), post.getTitle(), post.getContent());
+        return new PostResponse(post.getId(), post.getTitle(), post.getContent(),post.getCreatedAt(),post.getModifiedAt());
     }
 
     public List<PostResponse> getList(SearchOption option) {
