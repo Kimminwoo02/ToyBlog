@@ -22,7 +22,18 @@ spring:
     username: root
     password: alsdn0508!
     driver-class-name: com.mysql.cj.jdbc.Driver
+  session:
+    timeout: 600
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+
+
+  security:
+    user:
+      name: user
+      password: 1111
 minu:
   jwt-key: "LM6e6xmkbje1qT4vd1Tj+ewsslsLzEB3qP4tgtOd9Uk="
-
 

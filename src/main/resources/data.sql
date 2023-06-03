@@ -1,1 +1,1 @@
-select * from user
+select * from SPRING_SESSION
