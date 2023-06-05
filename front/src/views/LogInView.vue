@@ -10,12 +10,19 @@ const password = ref("")
 const router = useRouter();
 
 const signIn = function () {
-  axios.post("api/auth/login", {
+  const data = {
     email: email.value,
     password: password.value
-  }).then(() => {
-    router.replace({name: "home"});
-  });
+  }
+  const config = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  }
+  axios.post("/api/login", data, config)
+      .then(() => {
+        router.replace({name:"home"});
+      })
 
 };
 

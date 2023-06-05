@@ -20,9 +20,6 @@ const signIn = function () {
         alert("회원가입이 완료되었습니다!")
         router.replace({name: "home"});
       })
-      .catch(function (error){
-        alert("입력값을 확인해주세요!")
-      })
 };
 
 const form = reactive({
