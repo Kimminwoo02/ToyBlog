@@ -5,8 +5,8 @@
 
 * Intellij IDEA Ultimate
 * Java 17
-* Gradle 7.6.1
-* Spring Boot 2.7.0
+* Gradle 
+* Spring Boot 3.1.0
 
 ## 기술 세부 스택
 
